@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="assets/logo.png" alt="ThreadLab Logo" width="120" />
+  <img src="assets/logo.png" alt="ThreadLab Logo" width="250" />
 </p>
 
 🚀 ThreadLab is a browser-based 3D T-Shirt design studio that allows users to create, customize, and preview apparel designs in real-time using WebGL.
