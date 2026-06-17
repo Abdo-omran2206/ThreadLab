@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ThreadLab — Design. Preview. Create in 3D.</title>
+    <meta
+      name="description"
+      content="A browser-based 3D T-Shirt design studio for real-time customization. No download needed. Start designing now."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Poppins:wght@700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/landing.css" />
+    <link rel="shortcut icon" href="../assets/logo.png" type="image/x-icon" />
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563EB" />
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════ -->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="#" class="nav-logo">
+          <img
+            src="assets/logo.png"
+            alt="ThreadLab"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="nav-logo-text">Thread<span>Lab</span></span>
+        </a>
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#users">For Who</a>
+          <a href="./Studio/index.html" class="btn-primary">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="M4 12h16M12 5l7 7-7 7" />
+            </svg>
+            Launch Studio
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+    <section class="hero" id="hero">
+      <div class="hero-bg"></div>
+
+      <div class="hero-body">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Browser-based · No download · 100% free
+        </div>
+
+        <h1 class="hero-title">
+          <span class="gradient">Design. Preview.</span><br />
+          <span class="blue-word">Create in 3D.</span>
+        </h1>
+
+        <p class="hero-desc">
+          A browser-based 3D T-Shirt design studio for real-time customization.
+          Add colors, images, and text — see it live on the model.
+        </p>
+
+        <div class="hero-cta">
+          <a href="./Studio/index.html" class="btn-primary">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <polygon points="5,3 19,12 5,21" />
+            </svg>
+            Start Designing
+          </a>
+          <a href="#preview" class="btn-ghost">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="10,8 16,12 10,16" />
+            </svg>
+            View Demo
+          </a>
+        </div>
+      </div>
+
+      <!-- Mockup Visual -->
+      <div class="hero-visual">
+        <div class="mockup-shell">
+          <div class="mockup-bar">
+            <span class="dot-red"></span>
+            <span class="dot-yel"></span>
+            <span class="dot-grn"></span>
+            <span class="mockup-bar-title"
+              >ThreadLab Studio — Design Preview</span
+            >
+          </div>
+          <div class="mockup-screen">
+            <!-- Left sidebar hints -->
+            <div class="hero-sidebar-hint">
+              <div class="hint-chip">🎨 Shirt Color</div>
+              <div class="hint-chip">🖼️ Upload Image</div>
+              <div class="hint-chip">✍️ Add Text</div>
+            </div>
+
+            <!-- 3D Shirt illustration -->
+            <div class="hero-shirt-wrap">
+              <svg
+                class="shirt-3d"
+                viewBox="0 0 300 280"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <linearGradient id="shirtGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#2563EB" />
+                    <stop offset="100%" stop-color="#1D4ED8" />
+                  </linearGradient>
+                  <filter id="shadow">
+                    <feDropShadow
+                      dx="0"
+                      dy="12"
+                      stdDeviation="16"
+                      flood-color="#2563EB"
+                      flood-opacity="0.5"
+                    />
+                  </filter>
+                </defs>
+                <!-- T-Shirt body -->
+                <path
+                  d="M60 60 L100 40 Q150 30 200 40 L240 60 L270 100 L230 120 L230 240 Q230 250 220 250 L80 250 Q70 250 70 240 L70 120 L30 100 Z"
+                  fill="url(#shirtGrad)"
+                  filter="url(#shadow)"
+                />
+                <!-- collar -->
+                <path
+                  d="M100 40 Q150 60 200 40"
+                  stroke="rgba(255,255,255,0.25)"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <!-- sleeve highlights -->
+                <path
+                  d="M60 60 L30 100 L70 120"
+                  fill="rgba(255,255,255,0.08)"
+                />
+                <path d="M240 60 L270 100 L230 120" fill="rgba(0,0,0,0.15)" />
+                <!-- front highlight -->
+                <path
+                  d="M90 60 L90 240"
+                  stroke="rgba(255,255,255,0.06)"
+                  stroke-width="40"
+                />
+                <!-- small logo text -->
+                <text
+                  x="150"
+                  y="155"
+                  text-anchor="middle"
+                  font-family="Inter"
+                  font-size="18"
+                  font-weight="800"
+                  fill="rgba(255,255,255,0.9)"
+                >
+                  THREAD
+                </text>
+                <text
+                  x="150"
+                  y="178"
+                  text-anchor="middle"
+                  font-family="Inter"
+                  font-size="11"
+                  font-weight="500"
+                  fill="rgba(255,255,255,0.55)"
+                  letter-spacing="4"
+                >
+                  L A B
+                </text>
+                <!-- bottom stitch -->
+                <path
+                  d="M70 248 L230 248"
+                  stroke="rgba(255,255,255,0.12)"
+                  stroke-width="1"
+                  stroke-dasharray="4 4"
+                />
+              </svg>
+            </div>
+
+            <!-- Export hint bottom right -->
+            <div class="hero-export-hint">
+              <span class="export-label">Export ready</span>
+              <div class="export-formats">
+                <span class="fmt-tag">4× PNG</span>
+                <span class="fmt-tag">WebM</span>
+                <span class="fmt-tag">GLB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+       STATS
+  ═══════════════════════════════════════════════ -->
+    <div class="stats-row">
+      <div class="stats-inner">
+        <div class="stat reveal">
+          <div class="stat-num">60fps</div>
+          <div class="stat-label">Real-time rendering</div>
+        </div>
+        <div class="stat reveal reveal-d1">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Export formats</div>
+        </div>
+        <div class="stat reveal reveal-d2">
+          <div class="stat-num">4×</div>
+          <div class="stat-label">Ultra-res PNG</div>
+        </div>
+        <div class="stat reveal reveal-d3">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Installs required</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+       PROBLEM / SOLUTION
+  ═══════════════════════════════════════════════ -->
+    <section class="ps-section" id="problem">
+      <div class="section-label">
+        <span class="tag">🔍 Why ThreadLab?</span>
+      </div>
+      <h2 class="section-title">The old way is broken.</h2>
+      <p class="section-sub">
+        Traditional design tools weren't built for apparel designers who need to
+        see results in real time.
+      </p>
+
+      <div class="ps-grid">
+        <div class="ps-card problem reveal">
+          <div class="ps-heading"><span>😤</span> The Problem</div>
+          <ul class="ps-list">
+            <li>
+              <span class="ps-icon bad">✕</span>
+              <span
+                >2D design tools give you a flat preview — no way to see how it
+                looks on a real garment.</span
+              >
+            </li>
+            <li>
+              <span class="ps-icon bad">✕</span>
+              <span
+                >Photoshop and Illustrator are heavy software — expensive and
+                steep learning curves.</span
+              >
+            </li>
+            <li>
+              <span class="ps-icon bad">✕</span>
+              <span
+                >No real-time 3D preview — you don't know how the final product
+                looks until it's printed.</span
+              >
+            </li>
+            <li>
+              <span class="ps-icon bad">✕</span>
+              <span
+                >Mockup generators are static — they can't show you the design
+                from multiple angles.</span
+              >
+            </li>
+            <li>
+              <span class="ps-icon bad">✕</span>
+              <span
+                >Export quality is limited — most tools only give you one
+                resolution option.</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="ps-card solution reveal reveal-d2">
+          <div class="ps-heading">
+            <span style="color: #4ade80">✅</span> ThreadLab Solves It
+          </div>
+          <ul class="ps-list">
+            <li>
+              <span class="ps-icon good">✓</span>
+              <span
+                ><strong style="color: #fff">Real-time 3D rendering</strong> —
+                see every design change reflected instantly on the 3D
+                model.</span
+              >
+            </li>
+            <li>
+              <span class="ps-icon good">✓</span>
+              <span
+                ><strong style="color: #fff">100% browser-based</strong> — open
+                the link and start designing. Zero installation.</span
+              >
+            </li>
+            <li>
+              <span class="ps-icon good">✓</span>
+              <span
+                ><strong style="color: #fff">Multi-angle preview</strong> —
+                rotate, zoom, and inspect from any angle before exporting.</span
+              >
+            </li>
+            <li>
+              <span class="ps-icon good">✓</span>
+              <span
+                ><strong style="color: #fff">Layer-based editor</strong> — stack
+                colors, logos, and text just like a professional tool.</span
+              >
+            </li>
+            <li>
+              <span class="ps-icon good">✓</span>
+              <span
+                ><strong style="color: #fff">Pro exports</strong> — 4× Ultra-Res
+                PNG, WebM video turntable, or raw GLB 3D model.</span
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+       FEATURES
+  ═══════════════════════════════════════════════ -->
+    <section class="features-section" id="features">
+      <div class="section-label">
+        <span class="tag">⚡ Core Features</span>
+      </div>
+      <h2 class="section-title">Everything you need.</h2>
+      <p class="section-sub">
+        Build complete apparel designs from scratch, right in your browser.
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon-wrap">🎨</div>
+          <h3>Color Customization</h3>
+          <p>
+            Pick any color from the wheel or choose from our curated swatches.
+            See the shirt update instantly in 3D.
+          </p>
+        </div>
+        <div class="feature-card reveal reveal-d1">
+          <div class="feature-icon-wrap">🖼️</div>
+          <h3>Image & Logo Upload</h3>
+          <p>
+            Drag and drop PNG, JPG, or WEBP files. Place logos with
+            pixel-perfect precision using position and scale sliders.
+          </p>
+        </div>
+        <div class="feature-card reveal reveal-d2">
+          <div class="feature-icon-wrap">✍️</div>
+          <h3>Text Editor</h3>
+          <p>
+            Add custom text with font family, size, color, bold, and italic
+            options. Style it and position it anywhere on the shirt.
+          </p>
+        </div>
+        <div class="feature-card reveal reveal-d3">
+          <div class="feature-icon-wrap">🔄</div>
+          <h3>3D Rotation & Zoom</h3>
+          <p>
+            Spin, pan, and zoom the model freely. Switch between Front, Back,
+            and Free-look camera presets.
+          </p>
+        </div>
+        <div class="feature-card reveal reveal-d4">
+          <div class="feature-icon-wrap">📸</div>
+          <h3>Pro Export Engine</h3>
+          <p>
+            Export as 1×/2×/4× PNG images, 60fps WebM video turntables, or raw
+            GLB 3D models for Blender or AR.
+          </p>
+        </div>
+        <div class="feature-card reveal reveal-d5">
+          <div class="feature-icon-wrap">💾</div>
+          <h3>Project Management</h3>
+          <p>
+            Save unlimited projects, reload them instantly, auto-save your work,
+            and start new designs with one click.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+       LIVE PREVIEW (WOW SECTION)
+  ═══════════════════════════════════════════════ -->
+    <section class="preview-section" id="preview">
+      <div class="section-label">
+        <span class="tag">👁 Live Preview</span>
+      </div>
+      <h2 class="section-title">See changes. Instantly.</h2>
+      <p class="section-sub">
+        Design changes reflect immediately in 3D. No refresh. No delay. Pure
+        real-time.
+      </p>
+
+      <div class="preview-window reveal">
+        <div class="preview-top">
+          <div class="preview-top-dots">
+            <span class="dot-red"></span>
+            <span class="dot-yel"></span>
+            <span class="dot-grn"></span>
+          </div>
+          <div class="preview-top-url">threadlab.studio/app</div>
+        </div>
+
+        <div class="preview-canvas">
+          <div class="preview-canvas-grid"></div>
+
+          <!-- Color swatches on left -->
+          <div class="preview-swatches">
+            <div
+              class="swatch-circle active"
+              style="background: #2563eb"
+              onclick="changeDemoShirt('#2563EB', this)"
+            ></div>
+            <div
+              class="swatch-circle"
+              style="background: #111"
+              onclick="changeDemoShirt('#111', this)"
+            ></div>
+            <div
+              class="swatch-circle"
+              style="background: #dc2626"
+              onclick="changeDemoShirt('#DC2626', this)"
+            ></div>
+            <div
+              class="swatch-circle"
+              style="background: #16a34a"
+              onclick="changeDemoShirt('#16A34A', this)"
+            ></div>
+            <div
+              class="swatch-circle"
+              style="background: #fff; border-color: rgba(255, 255, 255, 0.5)"
+              onclick="changeDemoShirt('#fff', this)"
+            ></div>
+          </div>
+
+          <!-- 3D shirt SVG -->
+          <div class="preview-shirt">
+            <svg
+              id="demo-shirt"
+              viewBox="0 0 300 280"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="demoGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop id="demoStop1" offset="0%" stop-color="#2563EB" />
+                  <stop id="demoStop2" offset="100%" stop-color="#1D4ED8" />
+                </linearGradient>
+                <filter id="demoShadow">
+                  <feDropShadow
+                    dx="0"
+                    dy="10"
+                    stdDeviation="14"
+                    flood-color="#2563EB"
+                    flood-opacity="0.5"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M60 60 L100 40 Q150 30 200 40 L240 60 L270 100 L230 120 L230 240 Q230 250 220 250 L80 250 Q70 250 70 240 L70 120 L30 100 Z"
+                fill="url(#demoGrad)"
+                filter="url(#demoShadow)"
+              />
+              <path
+                d="M100 40 Q150 60 200 40"
+                stroke="rgba(255,255,255,0.25)"
+                stroke-width="2"
+                fill="none"
+              />
+              <path d="M60 60 L30 100 L70 120" fill="rgba(255,255,255,0.08)" />
+              <path d="M240 60 L270 100 L230 120" fill="rgba(0,0,0,0.15)" />
+              <text
+                x="150"
+                y="155"
+                text-anchor="middle"
+                font-family="Inter"
+                font-size="18"
+                font-weight="800"
+                fill="rgba(255,255,255,0.9)"
+              >
+                THREAD
+              </text>
+              <text
+                x="150"
+                y="178"
+                text-anchor="middle"
+                font-family="Inter"
+                font-size="11"
+                font-weight="500"
+                fill="rgba(255,255,255,0.55)"
+                letter-spacing="4"
+              >
+                L A B
+              </text>
+            </svg>
+            <div class="preview-label">
+              ✦ Design changes reflect instantly in 3D
+            </div>
+          </div>
+
+          <!-- Camera controls -->
+          <div class="preview-controls">
+            <button class="preview-ctrl-btn active">Front</button>
+            <button
+              class="preview-ctrl-btn"
+              onclick="
+                this.parentNode
+                  .querySelectorAll('button')
+                  .forEach((b) => b.classList.remove('active'));
+                this.classList.add('active');
+              "
+            >
+              Back
+            </button>
+            <button
+              class="preview-ctrl-btn"
+              onclick="
+                this.parentNode
+                  .querySelectorAll('button')
+                  .forEach((b) => b.classList.remove('active'));
+                this.classList.add('active');
+              "
+            >
+              Free
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+       HOW IT WORKS
+  ═══════════════════════════════════════════════ -->
+    <section class="how-section" id="how-it-works">
+      <div class="section-label">
+        <span class="tag">🚀 Getting Started</span>
+      </div>
+      <h2 class="section-title">Three steps. That's all.</h2>
+      <p class="section-sub">
+        Go from idea to a presentation-ready design in under 5 minutes.
+      </p>
+
+      <div class="steps-row">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <h3>Choose Your Color</h3>
+          <p>
+            Pick a shirt color from our swatch palette or dial in a custom hex.
+            The 3D model updates in real time.
+          </p>
+        </div>
+        <div class="step reveal reveal-d2">
+          <div class="step-num">2</div>
+          <h3>Add Text or Image</h3>
+          <p>
+            Drop a logo image or type your brand text. Position it anywhere on
+            the front or back of the shirt.
+          </p>
+        </div>
+        <div class="step reveal reveal-d4">
+          <div class="step-num">3</div>
+          <h3>Export Your Design</h3>
+          <p>
+            Download a high-res PNG, record a 360° turntable video, or save the
+            full 3D model as a GLB file.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+       TARGET USERS
+  ═══════════════════════════════════════════════ -->
+    <section class="users-section" id="users">
+      <div class="section-label">
+        <span class="tag">👥 Who It's For</span>
+      </div>
+      <h2 class="section-title">Built for creators.</h2>
+      <p class="section-sub">
+        ThreadLab is the tool serious apparel designers have been waiting for.
+      </p>
+
+      <div class="users-grid">
+        <div class="user-card reveal">
+          <span class="user-emoji">👕</span>
+          <h3>Clothing Brand Owners</h3>
+          <p>
+            Visualize and pitch new collections without waiting for physical
+            samples.
+          </p>
+        </div>
+        <div class="user-card reveal reveal-d1">
+          <span class="user-emoji">🖨️</span>
+          <h3>Print-on-Demand Sellers</h3>
+          <p>
+            Preview every variant before listing on Etsy, Shopify, or Printful.
+          </p>
+        </div>
+        <div class="user-card reveal reveal-d2">
+          <span class="user-emoji">🎨</span>
+          <h3>Graphic Designers</h3>
+          <p>
+            Present designs to clients in an interactive 3D format that sells
+            itself.
+          </p>
+        </div>
+        <div class="user-card reveal reveal-d3">
+          <span class="user-emoji">🛍️</span>
+          <h3>E-commerce Startups</h3>
+          <p>
+            Create polished product visuals without a photo shoot or design
+            agency.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+       TECH STACK
+  ═══════════════════════════════════════════════ -->
+    <div class="tech-section">
+      <div class="tech-inner">
+        <span class="tech-label">Powered by</span>
+        <span class="tech-divider"></span>
+        <span class="tech-badge">
+          <span class="tech-badge-dot" style="background: #3b82f6"></span>
+          Three.js
+        </span>
+        <span class="tech-badge">
+          <span class="tech-badge-dot" style="background: #f97316"></span>
+          WebGL
+        </span>
+        <span class="tech-badge">
+          <span class="tech-badge-dot" style="background: #eab308"></span>
+          HTML5 Canvas
+        </span>
+        <span class="tech-badge">
+          <span class="tech-badge-dot" style="background: #a855f7"></span>
+          MediaRecorder API
+        </span>
+        <span class="tech-badge">
+          <span class="tech-badge-dot" style="background: #22c55e"></span>
+          GLTFExporter
+        </span>
+        <span class="tech-badge">
+          <span class="tech-badge-dot" style="background: #ec4899"></span>
+          Vanilla JS
+        </span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+       FINAL CTA
+  ═══════════════════════════════════════════════ -->
+    <section class="cta-section" id="cta">
+      <h2 class="cta-title reveal">
+        Ready to design<br />
+        <span style="color: var(--blue)">in 3D?</span>
+      </h2>
+      <p class="cta-sub reveal reveal-d1">
+        No account. No download. Open the studio and start creating right now.
+      </p>
+      <div class="cta-btns">
+        <a href="./Studio/index.html" class="btn-primary reveal reveal-d2">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <polygon points="5,3 19,12 5,21" />
+          </svg>
+          Start Designing
+        </a>
+        <a href="./Studio/index.html" class="btn-ghost reveal reveal-d3"
+          >Try Free →</a
+        >
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <img
+            src="./assets/logo.png"
+            alt="ThreadLab"
+            onerror="this.style.display = 'none'"
+          />
+          Thread<span>Lab</span>
+        </div>
+        <div class="footer-meta">
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How it Works</a>
+          <a href="./Studio/index.html">Launch Studio</a>
+          <a
+            href="https://github.com/Abdo-omran2206"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.21.09 1.85 1.24 1.85 1.24 1.07 1.83 2.81 1.3 3.5 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.31-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 6.8c1.02.005 2.05.14 3.01.41 2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.86.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0Z"
+              />
+            </svg>
+          </a>
+        </div>
+        <div class="footer-right">
+          <span>© 2026 ThreadLab</span>
+          <span class="footer-version">v2.0</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════
+       JS
+  ═══════════════════════════════════════════════ -->
+    <script>
+      // Scroll reveal
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+
+      // Demo shirt color changer
+      function changeDemoShirt(color, el) {
+        const stop1 = document.getElementById("demoStop1");
+        const stop2 = document.getElementById("demoStop2");
+        const shadow = document.querySelector("#demoShadow feDropShadow");
+
+        // Darken by 15% for gradient stop 2
+        stop1.setAttribute("stop-color", color);
+        stop2.setAttribute("stop-color", shadeColor(color, -18));
+        if (shadow) shadow.setAttribute("flood-color", color);
+
+        document
+          .querySelectorAll(".swatch-circle")
+          .forEach((s) => s.classList.remove("active"));
+        el.classList.add("active");
+      }
+
+      function shadeColor(color, percent) {
+        if (color === "#fff" || color === "#ffffff") return "#e5e5e5";
+        if (color === "#111") return "#000";
+        const num = parseInt(color.replace("#", ""), 16);
+        const r = Math.max(0, Math.min(255, (num >> 16) + percent));
+        const g = Math.max(0, Math.min(255, ((num >> 8) & 0xff) + percent));
+        const b = Math.max(0, Math.min(255, (num & 0xff) + percent));
+        return (
+          "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
+        );
+      }
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const target = document.querySelector(a.getAttribute("href"));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

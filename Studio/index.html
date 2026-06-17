@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ThreadLab — Design. Preview. Create in 3D.</title>
+    <meta
+      name="description"
+      content="ThreadLab is a browser-based 3D T-Shirt design studio. Customize colors, add images and text, and preview your design in real-time 3D."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="shortcut icon" href="../assets/logo.png" type="image/x-icon" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════════
+       LOADING OVERLAY
+  ═══════════════════════════════════════════ -->
+    <div id="loading-overlay" class="loading-overlay">
+      <div class="loading-content">
+        <div class="loading-logo">
+          <img src="../assets/logo.png" alt="threadLab" />
+          <span>ThreadLab</span>
+        </div>
+        <p class="loading-status" id="loading-status">Initializing scene…</p>
+        <div class="loading-bar-track">
+          <div class="loading-bar-fill" id="loading-bar"></div>
+        </div>
+        <span class="loading-pct" id="loading-pct">0%</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+       TOAST NOTIFICATIONS
+  ═══════════════════════════════════════════ -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- ═══════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════ -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar-left">
+        <div class="nav-logo">
+          <a href="../index.html">
+            <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+              <path
+                d="M8 12L24 6L40 12V20C40 30 32 38 24 42C16 38 8 30 8 20V12Z"
+                stroke="currentColor"
+                stroke-width="2.5"
+                fill="none"
+              />
+              <path
+                d="M8 12L24 6L40 12"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span class="nav-brand">Thread<span class="accent">Lab</span></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="navbar-center">
+        <div class="camera-view-group" role="group" aria-label="Camera views">
+          <button
+            class="view-btn active"
+            id="btn-view-front"
+            title="Front view"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <line x1="12" y1="3" x2="12" y2="21" />
+            </svg>
+            Front
+          </button>
+          <button class="view-btn" id="btn-view-back" title="Back view">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <line x1="12" y1="3" x2="12" y2="21" stroke-dasharray="2 2" />
+            </svg>
+            Back
+          </button>
+          <button class="view-btn" id="btn-view-free" title="Free camera mode">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"
+              />
+            </svg>
+            Free
+          </button>
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <button class="btn-icon" id="btn-new" title="New project / Reset">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          New
+        </button>
+        <button class="btn-icon" id="btn-save" title="Save project">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"
+            />
+            <polyline points="17,21 17,13 7,13 7,21" />
+            <polyline points="7,3 7,8 15,8" />
+          </svg>
+          Save
+        </button>
+        <button class="btn-icon" id="btn-load" title="Load project">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"
+            />
+          </svg>
+          Load
+        </button>
+        <div class="nav-divider"></div>
+        <button
+          class="btn-icon"
+          id="btn-theme"
+          title="Toggle theme"
+          aria-label="Toggle dark mode"
+        >
+          <svg
+            class="icon-sun"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <svg
+            class="icon-moon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          </svg>
+        </button>
+        <div class="nav-divider"></div>
+        <button class="btn-primary" id="btn-export">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+            <polyline points="7,10 12,15 17,10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Export PNG
+        </button>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════
+       MAIN WORKSPACE
+  ═══════════════════════════════════════════ -->
+    <main class="workspace" role="main">
+      <!-- ── LEFT SIDEBAR ── -->
+      <aside
+        class="sidebar"
+        id="sidebar"
+        role="complementary"
+        aria-label="Design tools"
+      >
+        <!-- Color Tool -->
+        <section class="panel" id="panel-color">
+          <h2 class="panel-title">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 2a10 10 0 010 20" />
+              <path d="M2 12h20" />
+            </svg>
+            Shirt Color
+          </h2>
+          <div class="color-picker-wrap">
+            <input
+              type="color"
+              id="shirt-color"
+              value="#ffffff"
+              class="color-input"
+              title="Pick shirt color"
+            />
+            <div class="color-swatches" id="color-swatches">
+              <button
+                class="swatch"
+                style="background: #ffffff"
+                data-color="#ffffff"
+                title="White"
+              ></button>
+              <button
+                class="swatch"
+                style="background: #111111"
+                data-color="#111111"
+                title="Black"
+              ></button>
+              <button
+                class="swatch"
+                style="background: #1d4ed8"
+                data-color="#1d4ed8"
+                title="Royal Blue"
+              ></button>
+              <button
+                class="swatch"
+                style="background: #dc2626"
+                data-color="#dc2626"
+                title="Red"
+              ></button>
+              <button
+                class="swatch"
+                style="background: #16a34a"
+                data-color="#16a34a"
+                title="Green"
+              ></button>
+              <button
+                class="swatch"
+                style="background: #d97706"
+                data-color="#d97706"
+                title="Amber"
+              ></button>
+              <button
+                class="swatch"
+                style="background: #7c3aed"
+                data-color="#7c3aed"
+                title="Violet"
+              ></button>
+              <button
+                class="swatch"
+                style="background: #db2777"
+                data-color="#db2777"
+                title="Pink"
+              ></button>
+              <button
+                class="swatch"
+                style="background: #0891b2"
+                data-color="#0891b2"
+                title="Cyan"
+              ></button>
+              <button
+                class="swatch"
+                style="background: #4b5563"
+                data-color="#4b5563"
+                title="Slate"
+              ></button>
+            </div>
+          </div>
+        </section>
+
+        <div class="panel-divider"></div>
+
+        <!-- Image Upload Tool -->
+        <section class="panel" id="panel-image">
+          <h2 class="panel-title">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21,15 16,10 5,21" />
+            </svg>
+            Upload Image
+          </h2>
+          <div
+            class="dropzone"
+            id="image-dropzone"
+            role="button"
+            tabindex="0"
+            aria-label="Drop image here or click to upload"
+          >
+            <input
+              type="file"
+              id="image-upload"
+              accept="image/png,image/jpeg,image/webp"
+              class="file-input"
+              aria-label="Upload image file"
+            />
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="17,8 12,3 7,8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <p>Drop image here</p>
+            <span>PNG, JPG, WEBP</span>
+          </div>
+          <div class="image-list" id="image-list"></div>
+        </section>
+
+        <div class="panel-divider"></div>
+
+        <!-- Text Tool -->
+        <section class="panel" id="panel-text">
+          <h2 class="panel-title">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="4,7 4,4 20,4 20,7" />
+              <line x1="9" y1="20" x2="15" y2="20" />
+              <line x1="12" y1="4" x2="12" y2="20" />
+            </svg>
+            Add Text
+          </h2>
+          <div class="text-form">
+            <div class="form-group">
+              <label for="text-input" class="form-label">Text</label>
+              <input
+                type="text"
+                id="text-input"
+                class="form-control"
+                placeholder="Your text here…"
+                maxlength="80"
+              />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="text-font" class="form-label">Font</label>
+                <select id="text-font" class="form-control form-select">
+                  <option value="Inter">Inter</option>
+                  <option value="Arial">Arial</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Courier New">Courier New</option>
+                  <option value="Impact">Impact</option>
+                  <option value="Trebuchet MS">Trebuchet</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="text-size" class="form-label">Size</label>
+                <input
+                  type="number"
+                  id="text-size"
+                  class="form-control"
+                  value="48"
+                  min="12"
+                  max="200"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="text-color" class="form-label">Color</label>
+              <div class="color-row">
+                <input
+                  type="color"
+                  id="text-color"
+                  value="#111111"
+                  class="color-input-sm"
+                />
+                <span id="text-color-val" class="color-val">#111111</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Style</label>
+              <div class="style-toggles">
+                <button
+                  class="style-btn"
+                  id="btn-bold"
+                  title="Bold"
+                  aria-pressed="false"
+                >
+                  <strong>B</strong>
+                </button>
+                <button
+                  class="style-btn"
+                  id="btn-italic"
+                  title="Italic"
+                  aria-pressed="false"
+                >
+                  <em>I</em>
+                </button>
+              </div>
+            </div>
+            <button class="btn-accent full-width" id="btn-add-text">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add to Shirt
+            </button>
+          </div>
+          <div class="text-list" id="text-list"></div>
+        </section>
+
+        <div class="panel-divider"></div>
+
+        <!-- Viewer Settings (Animation) -->
+        <section class="panel" id="panel-viewer">
+          <h2 class="panel-title">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M8 12a4 4 0 100-8 4 4 0 000 8z" />
+              <path d="M12 12l3.5 3.5" />
+            </svg>
+            Model Animation
+          </h2>
+          <div class="form-group">
+            <label for="animation-mode" class="form-label"
+              >Animation Mode</label
+            >
+            <select id="animation-mode" class="form-control form-select">
+              <option value="none">None (Static)</option>
+              <option value="spin">Turntable (Spin)</option>
+              <option value="hover">Gentle Hover (Float)</option>
+            </select>
+          </div>
+          <div class="form-group" id="group-anim-speed" style="display: none">
+            <label class="form-label">Speed</label>
+            <div class="slider-row">
+              <input
+                type="range"
+                id="animation-speed"
+                class="slider"
+                min="0.1"
+                max="3.0"
+                step="0.1"
+                value="1.0"
+              />
+              <span class="slider-val" id="animation-speed-val">1.00</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <!-- ── 3D CANVAS AREA ── -->
+      <section class="canvas-area" id="canvas-area" aria-label="3D Preview">
+        <div id="canvas-container" class="canvas-container"></div>
+
+        <!-- Floating canvas controls -->
+        <div class="canvas-controls">
+          <button
+            class="canvas-ctrl-btn"
+            id="btn-reset-camera"
+            title="Reset camera"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M1 4v6h6" />
+              <path d="M3.51 15a9 9 0 102.13-9.36L1 10" />
+            </svg>
+          </button>
+          <button
+            class="canvas-ctrl-btn"
+            id="btn-toggle-rotate"
+            title="Toggle auto-rotate"
+            aria-pressed="false"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="23,4 23,10 17,10" />
+              <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="canvas-hint">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          Drag to rotate · Scroll to zoom
+        </div>
+      </section>
+
+      <!-- ── RIGHT PROPERTIES PANEL ── -->
+      <aside
+        class="properties"
+        id="properties"
+        role="complementary"
+        aria-label="Properties"
+      >
+        <div class="props-empty" id="props-empty">
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"
+            />
+          </svg>
+          <h3>Properties</h3>
+          <p>Select an image or text layer to edit its properties.</p>
+        </div>
+
+        <!-- Image Properties -->
+        <div class="props-panel" id="props-image" style="display: none">
+          <div class="props-header">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21,15 16,10 5,21" />
+            </svg>
+            <h3>Image Properties</h3>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Position X</label>
+            <div class="slider-row">
+              <input
+                type="range"
+                id="img-pos-x"
+                class="slider"
+                min="-0.5"
+                max="0.5"
+                step="0.01"
+                value="0"
+              />
+              <span class="slider-val" id="img-pos-x-val">0.00</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Position Y</label>
+            <div class="slider-row">
+              <input
+                type="range"
+                id="img-pos-y"
+                class="slider"
+                min="-0.5"
+                max="0.5"
+                step="0.01"
+                value="0"
+              />
+              <span class="slider-val" id="img-pos-y-val">0.00</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Scale</label>
+            <div class="slider-row">
+              <input
+                type="range"
+                id="img-scale"
+                class="slider"
+                min="0.1"
+                max="1.0"
+                step="0.01"
+                value="0.3"
+              />
+              <span class="slider-val" id="img-scale-val">0.30</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Opacity</label>
+            <div class="slider-row">
+              <input
+                type="range"
+                id="img-opacity"
+                class="slider"
+                min="0.1"
+                max="1.0"
+                step="0.05"
+                value="1.0"
+              />
+              <span class="slider-val" id="img-opacity-val">1.00</span>
+            </div>
+          </div>
+          <button class="btn-danger full-width" id="btn-delete-image">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="3,6 5,6 21,6" />
+              <path d="M19,6l-1,14H6L5,6" />
+              <path d="M10,11v6M14,11v6" />
+              <path d="M9,6V4h6v2" />
+            </svg>
+            Remove Image
+          </button>
+        </div>
+
+        <!-- Text Properties -->
+        <div class="props-panel" id="props-text" style="display: none">
+          <div class="props-header">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="4,7 4,4 20,4 20,7" />
+              <line x1="9" y1="20" x2="15" y2="20" />
+              <line x1="12" y1="4" x2="12" y2="20" />
+            </svg>
+            <h3>Text Properties</h3>
+          </div>
+
+          <div class="form-group">
+            <label for="prop-text-value" class="form-label">Text</label>
+            <input
+              type="text"
+              id="prop-text-value"
+              class="form-control"
+              placeholder="Edit text…"
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prop-text-font" class="form-label">Font</label>
+              <select id="prop-text-font" class="form-control form-select">
+                <option value="Inter">Inter</option>
+                <option value="Arial">Arial</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Impact">Impact</option>
+                <option value="Trebuchet MS">Trebuchet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="prop-text-size" class="form-label">Size</label>
+              <input
+                type="number"
+                id="prop-text-size"
+                class="form-control"
+                value="48"
+                min="12"
+                max="200"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="prop-text-color" class="form-label">Color</label>
+            <div class="color-row">
+              <input
+                type="color"
+                id="prop-text-color"
+                value="#111111"
+                class="color-input-sm"
+              />
+              <span id="prop-text-color-val" class="color-val">#111111</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Position X</label>
+            <div class="slider-row">
+              <input
+                type="range"
+                id="txt-pos-x"
+                class="slider"
+                min="-0.45"
+                max="0.45"
+                step="0.01"
+                value="0"
+              />
+              <span class="slider-val" id="txt-pos-x-val">0.00</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Position Y</label>
+            <div class="slider-row">
+              <input
+                type="range"
+                id="txt-pos-y"
+                class="slider"
+                min="-0.45"
+                max="0.45"
+                step="0.01"
+                value="0"
+              />
+              <span class="slider-val" id="txt-pos-y-val">0.00</span>
+            </div>
+          </div>
+          <button class="btn-danger full-width" id="btn-delete-text">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="3,6 5,6 21,6" />
+              <path d="M19,6l-1,14H6L5,6" />
+              <path d="M10,11v6M14,11v6" />
+              <path d="M9,6V4h6v2" />
+            </svg>
+            Remove Text
+          </button>
+        </div>
+
+        <!-- Export Section (always visible at bottom) -->
+        <div class="props-export">
+          <div class="panel-divider"></div>
+          <h3 class="panel-title" style="margin-top: 1rem">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7,10 12,15 17,10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Export Engine
+          </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="export-format">Format</label>
+              <select id="export-format" class="form-control form-select">
+                <option value="png">Image (PNG)</option>
+                <option value="video">Video (WebM)</option>
+                <option value="glb">3D Model (GLB)</option>
+              </select>
+            </div>
+            <div class="form-group" id="export-quality-group">
+              <label class="form-label" for="export-quality">Quality</label>
+              <select id="export-quality" class="form-control form-select">
+                <option value="1">1x Standard</option>
+                <option value="2">2x High Res</option>
+                <option value="4">4x Ultra Res</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" id="export-bg-group">
+            <label class="form-label">Background</label>
+            <div class="radio-group">
+              <label class="radio-label"
+                ><input type="radio" name="export-bg" value="scene" checked />
+                Scene</label
+              >
+              <label class="radio-label"
+                ><input type="radio" name="export-bg" value="white" />
+                White</label
+              >
+              <label class="radio-label"
+                ><input type="radio" name="export-bg" value="transparent" />
+                Transparent</label
+              >
+            </div>
+          </div>
+          <button class="btn-accent full-width" id="btn-export-props">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7,10 12,15 17,10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Export Design
+          </button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Load save/load modal -->
+    <div id="modal-backdrop" class="modal-backdrop" style="display: none"></div>
+    <div
+      id="modal-projects"
+      class="modal"
+      style="display: none"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div class="modal-header">
+        <h3 id="modal-title">Saved Projects</h3>
+        <button class="btn-icon-sm" id="modal-close" aria-label="Close">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <p class="empty-state">No saved projects yet.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-accent" id="btn-save-new">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Save New Project
+        </button>
+      </div>
+    </div>
+
+    <script type="module" src="../js/main.js"></script>
+  </body>
+</html>
