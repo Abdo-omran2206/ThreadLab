@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Allow important pages
+Allow: /Studio/
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+
+# Sitemap location
+Sitemap: https://abdo-omran2206.github.io/ThreadLab/sitemap.xml
